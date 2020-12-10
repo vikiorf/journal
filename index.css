@@ -121,7 +121,7 @@ body {
 
 #input-area-header {
   height: 55px;
-  background-color: #eef0f2;
+  background-color: #ecebe4;
   display: flex;
   flex-direction: row;
   padding-right: 10px;
@@ -160,16 +160,14 @@ body {
 }
 
 #input {
-  box-shadow: inset 1px 1px 1px gray;
+  border: none;
   margin-top: 0;
   height: 99.5%;
   resize: none;
   scrollbar-width: thin;
   background-color: #ecebe4;
-  /* background-color: #b59b7c; */
   font-size: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 20px;
 }
 
 .invisible {
