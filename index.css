@@ -16,6 +16,10 @@ body {
   grid-row-gap: 0px;
 }
 
+.rotate {
+  transform: rotate(90deg);
+}
+
 .center {
   align-self: center;
 }
@@ -160,6 +164,7 @@ body {
 }
 
 #input {
+  outline: none;
   border: none;
   margin-top: 0;
   height: 99.5%;

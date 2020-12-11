@@ -11,9 +11,6 @@ const addNoteDailyFilter = document.querySelector('#add-note-daily-filter')
 const addNoteRandomFilter = document.querySelector('#add-note-random-filter')
 const finalAddNoteButtonEl = document.querySelector('#final-add-note-button')
 
-const dailyFilterButtonEl = document.querySelector('#daily-filter-button')
-const randomFilterButtonEl = document.querySelector('#random-filter-button')
-
 const dailyFilterEl = document.querySelector('#daily-filter')
 const randomFilterEl = document.querySelector('#random-filter')
 
@@ -21,11 +18,11 @@ let notesArr = []
 let dailyNotesArr = []
 let randomNotesArr = []
 
+// Used in firebase.js
 function getNote(id) {
   const noteIndex = notesArr.findIndex((note) => note.id === id)
   return notesArr[noteIndex]
 }
-
 function getNoteIndex(id) {
   return (noteIndex = notesArr.findIndex((note) => note.id === id))
 }
@@ -66,12 +63,12 @@ function clearStartedTimeout(timeoutId) {
 }
 
 function autoSaveDocument(noteId, textAreaEl) {
-  let timer
+  let timeoutId
   textAreaEl.addEventListener('keyup', () => {
-    clearStartedTimeout(timer)
+    clearStartedTimeout(timeoutId)
     const noteIndex = getNoteIndex(noteId)
     notesArr[noteIndex].entry = textAreaEl.value
-    timer = saveNoteToDBAfterTimeout(noteId)
+    timeoutId = saveNoteToDBAfterTimeout(noteId)
   })
 }
 
@@ -86,10 +83,12 @@ function toggleSidebar() {
 }
 
 function toggleDisplayNone(el) {
-  if (el.className === 'invisible') {
-    el.className = 'visible'
+  if (el.classList.contains('invisible')) {
+    el.classList.remove('invisible')
+    el.classList.add('visible')
   } else {
-    el.className = 'invisible'
+    el.classList.add('invisible')
+    el.classList.remove('visible')
   }
 }
 
@@ -102,10 +101,10 @@ function toggleDisplayNoneAndDisplayFlex(el) {
 }
 
 function rotateExpandElement(el) {
-  if (el.className !== 'rotate') {
-    el.className = 'rotate'
+  if (!el.classList.contains('rotate')) {
+    el.classList.add('rotate')
   } else {
-    el.className = ''
+    el.classList.remove('rotate')
   }
 }
 
@@ -200,14 +199,19 @@ function updateNotesArr() {
   notesArr = dailyNotesArr.concat(randomNotesArr)
 }
 
-async function addNote(noteTitle) {
+function getNoteObject(noteTitle, option) {
   let date = getCurrentDate()
   let noteObject = {
-    option: 'random',
+    option: option,
     title: noteTitle,
     entry: null,
     date: date
   }
+  return noteObject
+}
+
+async function addNote(noteTitle) {
+  let noteObject = getNoteObject(noteTitle, 'random')
   let id = await addNoteToRandomAndReturnId(noteObject)
   noteObject.id = id
   randomNotesArr.push(noteObject)
@@ -216,13 +220,7 @@ async function addNote(noteTitle) {
 }
 
 async function addDailyNote(noteTitle) {
-  let date = getCurrentDate()
-  let noteObject = {
-    option: 'daily',
-    title: noteTitle,
-    entry: null,
-    date: date
-  }
+  let noteObject = getNoteObject(noteTitle, 'daily')
   let id = await addNoteToDailyAndReturnId(noteObject)
   noteObject.id = id
   dailyNotesArr.push(noteObject)
@@ -257,7 +255,7 @@ function findAllNoteListItemEl() {
 }
 
 function removeAllNoteListElFromSidebar() {
-  let noteElArr = findAllNoteListItemEl()
+  const noteElArr = findAllNoteListItemEl()
   noteElArr.forEach((noteEl) => {
     noteListEl.removeChild(noteEl)
   })
@@ -320,7 +318,6 @@ function createNoteListItem(note) {
   }
   const pEl = document.createElement('p')
   pEl.textContent = note.title
-  // pEl.textContent = note.date
   newNoteEl.appendChild(pEl)
   newNoteEl.addEventListener('click', () => {
     removeAllElFromInputArea()
