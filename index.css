@@ -7,13 +7,16 @@ body {
   background-color: #fafaff;
 }
 
-#app {
-  height: 100%;
+body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+}
+
+#app {
+  
 }
 
 .rotate {
@@ -33,6 +36,8 @@ body {
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   background-color: #fafaff;
+  padding-bottom: 15px;
+  user-select: none;
 }
 
 .collapse {
@@ -82,7 +87,7 @@ body {
   align-self: center;
 }
 
-#daily-filter, #random-filter {
+#daily-filter, #random-filter, #none-filter {
   grid-area: 1 / 2 / 2 / 8;
   align-self: center;
 }
@@ -124,6 +129,7 @@ body {
 }
 
 #input-area-header {
+  user-select: none;
   height: 55px;
   background-color: #ecebe4;
   display: flex;

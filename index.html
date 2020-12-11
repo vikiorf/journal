@@ -13,13 +13,12 @@
     <script src="index.js" defer></script>
   </head>
   <body>
-    <div id="app">
       <div class="side-bar" id="side-bar">
         <div class="heading">
           <h1 id="side-bar-header">Journal</h1>
           <img id="daily-filter" src="./src/images/Daily-Filter.svg" alt="daily-filter">
-          <img style="display: none;" id="random-filter" src="./src/images/Random-Filter.svg" alt="random-filter">
-          <img style="display: none;" id="none-filter" src="./src/images/none-Filter.svg" alt="none-filter">
+          <img class="invisible" id="random-filter" src="./src/images/Random-Filter.svg" alt="random-filter">
+          <img class="invisible" id="none-filter" src="./src/images/none-Filter.svg" alt="none-filter">
           <img id="menu-button" src="./src/images/Show.svg" alt="collapse">
         </div>
         <div id="note-list"></div>
@@ -32,8 +31,6 @@
           <button id="final-add-note-button">Add</button>
         </div>
       </div>
-      <div id="input-area">
-      </div>
-    </div>
+      <div id="input-area"></div>
   </body>
 </html>

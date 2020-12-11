@@ -13,6 +13,7 @@ const finalAddNoteButtonEl = document.querySelector('#final-add-note-button')
 
 const dailyFilterEl = document.querySelector('#daily-filter')
 const randomFilterEl = document.querySelector('#random-filter')
+const noneFilterEl = document.querySelector('#none-filter')
 
 let notesArr = []
 let dailyNotesArr = []
@@ -359,13 +360,26 @@ function startAddNoteProcess() {
   }
 }
 
+function displayNoneFilterButton() {
+  noneFilterEl.classList.remove('invisible')
+}
+
+function hideNoneFilterButton() {
+  noneFilterEl.classList.add('invisible')
+}
+
+function hideRandomAndDailyFilterButtons() {
+  dailyFilterEl.classList.add('invisible')
+  randomFilterEl.classList.add('invisible')
+}
+
 function toggleFilterButtons() {
-  if (randomFilterEl.style.display === 'none') {
-    dailyFilterEl.style.display = 'none'
-    randomFilterEl.style.display = 'unset'
+  if (randomFilterEl.classList.contains('invisible')) {
+    dailyFilterEl.classList.add('invisible')
+    randomFilterEl.classList.remove('invisible')
   } else {
-    dailyFilterEl.style.display = 'unset'
-    randomFilterEl.style.display = 'none'
+    dailyFilterEl.classList.remove('invisible')
+    randomFilterEl.classList.add('invisible')
   }
 }
 
@@ -418,8 +432,8 @@ function addFakeNotes() {
 }
 
 async function init() {
-  await fetchAllNotes()
-  // addFakeNotes()
+  // await fetchAllNotes()
+  addFakeNotes()
   updateNotesArr()
   renderDailyNotes()
 
@@ -430,6 +444,8 @@ init()
 
 sideBarHeaderEl.addEventListener('click', () => {
   removeAllElFromInputArea()
+  hideRandomAndDailyFilterButtons()
+  displayNoneFilterButton()
   renderAllNotes()
 })
 addNoteButtonEl.addEventListener('click', startAddNoteProcess)
@@ -439,5 +455,9 @@ dailyFilterEl.addEventListener('click', () => {
 })
 randomFilterEl.addEventListener('click', () => {
   filterNoteList('daily')
+})
+noneFilterEl.addEventListener('click', () => {
+  filterNoteList('random')
+  hideNoneFilterButton()
 })
 menuButtonEl.addEventListener('click', toggleSidebar)
