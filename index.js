@@ -15,6 +15,9 @@ const dailyFilterEl = document.querySelector('#daily-filter')
 const randomFilterEl = document.querySelector('#random-filter')
 const noneFilterEl = document.querySelector('#none-filter')
 
+const landingMenuButtonEl = document.querySelector('#landing-menu-button')
+const randomNoteContentEl = document.querySelector('#random-note-content')
+
 let notesArr = []
 let dailyNotesArr = []
 let randomNotesArr = []
@@ -29,6 +32,7 @@ function getNoteIndex(id) {
 }
 
 function removeAllElFromInputArea() {
+  inputAreaDivEl.classList.add('invisible')
   removeTextAreaHeader()
   removeTextArea()
 }
@@ -86,7 +90,6 @@ function toggleSidebar() {
 function toggleDisplayNone(el) {
   if (el.classList.contains('invisible')) {
     el.classList.remove('invisible')
-    el.classList.add('visible')
   } else {
     el.classList.add('invisible')
     el.classList.remove('visible')
@@ -107,6 +110,76 @@ function rotateExpandElement(el) {
   } else {
     el.classList.remove('rotate')
   }
+}
+
+function renderEditModal(note) {
+  // creating shadow screen
+  const modalDivEl = document.createElement('div')
+  modalDivEl.classList.add('modal')
+
+  // creating form body
+  const modalFormEl = document.createElement('div')
+  modalFormEl.classList.add('modal-form')
+
+  //creating inputs
+  const titleInputEl = document.createElement('input')
+  const dateInputEl = document.createElement('input')
+
+  // creating buttons
+  const saveButtonEl = document.createElement('button')
+  const cancelButtonEl = document.createElement('button')
+
+  cancelButtonEl.textContent = 'C'
+  saveButtonEl.textContent = 'Save'
+
+  titleInputEl.setAttribute('placeholder', `Title - ${note.title}`)
+  dateInputEl.setAttribute('placeholder', `Date - ${note.date}`)
+
+  titleInputEl.addEventListener('keyup', () => {
+    if (titleInputEl.value.length > 0) {
+      // Display a label above input with the current value
+    } else {
+      // Hide label
+    }
+  })
+
+  function removeModal() {
+    document.body.removeChild(modalDivEl)
+    document.body.removeChild(modalFormEl)
+  }
+
+  cancelButtonEl.addEventListener('click', removeModal)
+  modalDivEl.addEventListener('click', removeModal)
+  saveButtonEl.addEventListener('click', () => {
+    if (!titleInputEl.value && !dateInputEl.value) {
+      alert('Fill out at least one field')
+      return
+    }
+    if (titleInputEl.value && titleInputEl.value !== note.title) {
+      note.title = titleInputEl.value
+    }
+    if (dateInputEl.value && dateInputEl.value !== note.date) {
+      note.date = dateInputEl.value
+    }
+
+    const noteIndex = getNoteIndex(note.id)
+    notesArr[noteIndex] = note
+
+    saveNoteInDB(note.id)
+
+    removeModal()
+
+  })
+
+  modalFormEl.appendChild(cancelButtonEl)
+  modalFormEl.appendChild(titleInputEl)
+  modalFormEl.appendChild(dateInputEl)
+  modalFormEl.appendChild(saveButtonEl)
+
+  // modalFormEl.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quibusdam error consequatur. Earum aliquam repudiandae magni doloribus nobis error sequi accusamus porro fugit iusto? Iste natus alias a sit dolores?'
+  document.body.appendChild(modalDivEl)
+  document.body.appendChild(modalFormEl)
+  // console.log('hej')
 }
 
 function renderTextAreaHeader(note) {
@@ -165,6 +238,10 @@ function renderTextAreaHeader(note) {
     removeAllElFromInputArea()
   })
 
+  editButtonEl.addEventListener('click', () => {
+    renderEditModal(note)
+  })
+
   expandButtonContainerEl.appendChild(expandButtonEl)
 
   iconsContainerEl.appendChild(questionsButtonEl)
@@ -179,7 +256,7 @@ function renderTextAreaHeader(note) {
 }
 
 function renderTextArea(entry, noteId) {
-  inputAreaDivEl.style.display = 'flex'
+  inputAreaDivEl.classList.remove('invisible')
   const textAreaEl = document.createElement('textarea')
   textAreaEl.setAttribute('id', 'input')
   textAreaEl.value = entry
@@ -396,6 +473,21 @@ function toggleAddNoteFilterButtons() {
   }
 }
 
+function createRandomNoteDiv(entry) {
+  const newContentEl = document.createElement('div')
+  const paragraphEl = document.createElement('p')
+
+  newContentEl.classList.add('invisible')
+
+  randomNoteContentEl.addEventListener('click', () => {
+    toggleDisplayNone(newContentEl)
+  })
+
+  paragraphEl.textContent = entry
+  newContentEl.appendChild(paragraphEl)
+  return newContentEl
+}
+
 function filterNoteList(option) {
   if (option === 'daily') {
     removeAllNoteListElFromSidebar()
@@ -409,34 +501,41 @@ function filterNoteList(option) {
 }
 
 function addFakeNotes() {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     let date = getCurrentDate()
-    let randomNoteObject = {
+    let option = i < 10 ? 'random' : 'daily'
+    let noteObject = {
       id: 'fake' + i,
-      option: 'random',
-      title: 'Fake random ' + i,
-      entry: null,
+      option: option,
+      title: `Test ${option} ${i}`,
+      entry:
+        'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, ducimus eaque. Doloremque recusandae maiores tempora, blanditiis quidem eum suscipit vero debitis, vel dignissimos, rem reprehenderit nulla quo sequi accusantium ex.',
       date: date
     }
-    let dailyNoteObject = {
-      id: 'fake' + i,
-      option: 'daily',
-      title: 'Fake daily ' + i,
-      entry: null,
-      date: date
+    if (option === 'random') {
+      randomNotesArr.push(noteObject)
+    } else if (option === 'daily') {
+      dailyNotesArr.push(noteObject)
     }
-
-    randomNotesArr.push(randomNoteObject)
-    dailyNotesArr.push(dailyNoteObject)
   }
 }
 
+function initRandomNote() {
+  const randomTitleEl = document.querySelector('#random-title')
+  const randomDateEl = document.querySelector('#random-date')
+  let i = Math.floor(Math.random() * notesArr.length)
+  let note = notesArr[i]
+  randomTitleEl.textContent = note.title
+  randomDateEl.textContent = note.date ? note.date : 'N/A'
+  randomNoteContentEl.appendChild(createRandomNoteDiv(note.entry))
+}
+
 async function init() {
-  // await fetchAllNotes()
-  addFakeNotes()
+  await fetchAllNotes()
+  // addFakeNotes()
   updateNotesArr()
   renderDailyNotes()
-
+  initRandomNote()
   console.log('window.innerWidth', window.innerWidth)
 }
 
@@ -446,6 +545,7 @@ sideBarHeaderEl.addEventListener('click', () => {
   removeAllElFromInputArea()
   hideRandomAndDailyFilterButtons()
   displayNoneFilterButton()
+  inputAreaDivEl.classList.add('invisible')
   renderAllNotes()
 })
 addNoteButtonEl.addEventListener('click', startAddNoteProcess)
@@ -461,3 +561,4 @@ noneFilterEl.addEventListener('click', () => {
   hideNoneFilterButton()
 })
 menuButtonEl.addEventListener('click', toggleSidebar)
+landingMenuButtonEl.addEventListener('click', toggleSidebar)

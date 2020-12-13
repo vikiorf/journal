@@ -85,11 +85,15 @@ async function saveDocumentInDaily(note) {
     })
 }
 
+async function editNote() {
+  
+}
+
 async function saveDocumentInRandom(note) {
   random
     .doc(note.id)
     .set(note)
-    .then(() => {
+    .then(() => { 
       console.log('Collection saved in random!')
     })
     .catch((e) => {
