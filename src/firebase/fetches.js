@@ -2,6 +2,28 @@ const journal = db.collection('mental').doc('journal')
 const daily = journal.collection('daily')
 const random = journal.collection('random')
 
+let loggedIn = false
+
+async function signInUser(email, password) {
+  let ret = await auth
+    .signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      // Signed in
+      // ...
+      loggedIn = true
+      console.log('signed in!', user)
+      return true
+    })
+    .catch((error) => {
+      var errorCode = error.code
+      var errorMessage = error.message
+      console.log(errorCode)
+      console.log(errorMessage)
+      return false
+    })
+    return ret
+}
+
 async function fetchDailyNotes() {
   await daily
     .get()
@@ -85,15 +107,13 @@ async function saveDocumentInDaily(note) {
     })
 }
 
-async function editNote() {
-  
-}
+async function editNote() {}
 
 async function saveDocumentInRandom(note) {
   random
     .doc(note.id)
     .set(note)
-    .then(() => { 
+    .then(() => {
       console.log('Collection saved in random!')
     })
     .catch((e) => {
