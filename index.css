@@ -53,6 +53,7 @@ body {
 }
 
 #landing #random-note {
+  user-select: none;
   border-radius: 2px;
   grid-area: 2 / 2 / 2 / 12;
   border: 1px solid #727272;
