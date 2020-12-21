@@ -6,7 +6,6 @@ const sideBarHeaderEl = document.querySelector('#side-bar-header')
 const noteListEl = document.querySelector('#note-list')
 
 const loginDivEl = document.querySelector('#login')
-const loginButtonEl = document.querySelector('#login-button')
 
 const menuButtonEl = document.querySelector('#menu-button')
 
@@ -551,10 +550,8 @@ function checkIfUserIsSignedIn() {
   }
 }
 
-async function login() {
-  const usernameInputEl = document.querySelector('#username')
-  const passwordInputEl = document.querySelector('#password')
-  let uid = await signInUser(usernameInputEl.value, passwordInputEl.value)
+async function login(username, password) {
+  let uid = await signInUser(username, password)
   console.log(uid)
   if (uid) {
     localStorage.setItem('uid', uid)
@@ -598,4 +595,3 @@ noneFilterEl.addEventListener('click', () => {
 })
 menuButtonEl.addEventListener('click', toggleSidebar)
 landingMenuButtonEl.addEventListener('click', toggleSidebar)
-loginButtonEl.addEventListener('click', login)
