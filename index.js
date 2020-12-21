@@ -544,7 +544,7 @@ function hideLoginPage() {
 }
 
 function checkIfUserIsSignedIn() {
-  if (loggedIn) {
+  if (loggedIn || localStorage.getItem('uid')) {
     return true
   } else {
     return false
@@ -554,7 +554,11 @@ function checkIfUserIsSignedIn() {
 async function login() {
   const usernameInputEl = document.querySelector('#username')
   const passwordInputEl = document.querySelector('#password')
-  let state = await signInUser(usernameInputEl.value, passwordInputEl.value)
+  let uid = await signInUser(usernameInputEl.value, passwordInputEl.value)
+  console.log(uid)
+  if (uid) {
+    localStorage.setItem('uid', uid)
+  }
   init()
 }
 

@@ -5,14 +5,14 @@ const random = journal.collection('random')
 let loggedIn = false
 
 async function signInUser(email, password) {
-  let ret = await auth
+  let uid = await auth
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
       // Signed in
       // ...
       loggedIn = true
       console.log('signed in!', user)
-      return true
+      return user.user.uid
     })
     .catch((error) => {
       var errorCode = error.code
@@ -21,7 +21,7 @@ async function signInUser(email, password) {
       console.log(errorMessage)
       return false
     })
-    return ret
+    return uid
 }
 
 async function fetchDailyNotes() {
