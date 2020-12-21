@@ -6,6 +6,7 @@
     <title>Notes</title>
     <link rel="stylesheet" href="index.css" />
     <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-firestore.js"></script>
     <script src="./src/firebase/apiKey.js" defer></script>
     <script src="./src/firebase/firebaseConf.js" defer></script>
@@ -13,13 +14,19 @@
     <script src="index.js" defer></script>
   </head>
   <body>
-      <div class="side-bar" id="side-bar">
-        <div class="heading">
-          <h1 id="side-bar-header">Journal</h1>
-          <img id="daily-filter" src="./src/images/Daily-Filter.svg" alt="daily-filter">
-          <img class="invisible" id="random-filter" src="./src/images/Random-Filter.svg" alt="random-filter">
-          <img class="invisible" id="none-filter" src="./src/images/none-Filter.svg" alt="none-filter">
-          <img id="menu-button" src="./src/images/Show.svg" alt="collapse">
+      <div id="login" class="login">
+          <input type="text" name="username" id="username">
+          <input type="password" name="password" id="password">
+          <button id="login-button">Login</button>
+      </div>
+      <div id="app" class="app">
+        <div class="side-bar" id="side-bar">
+          <div class="heading">
+            <h1 id="side-bar-header">Journal</h1>
+            <img id="daily-filter" src="./src/images/Daily-Filter.svg" alt="daily-filter">
+            <img class="invisible" id="random-filter" src="./src/images/Random-Filter.svg" alt="random-filter">
+            <img class="invisible" id="none-filter" src="./src/images/none-filter.svg" alt="none-filter">
+            <img id="menu-button" src="./src/images/show.svg" alt="collapse">
         </div>
         <div id="note-list"></div>
         <img src="./src/images/add.svg" alt="add" id="add-note-button"></img>
@@ -34,7 +41,7 @@
       <div id="input-area" class="input-area invisible"></div>
       <div id="landing">
         <div id="landing-menu-div">
-          <img id="landing-menu-button" src="./src/images/Show.svg" alt="collapse">
+          <img id="landing-menu-button" src="./src/images/show.svg" alt="collapse">
         </div>
         <div id="random-note">
          <p id="random-title">
@@ -47,5 +54,6 @@
         <div id="random-note-content">
         </div>
       </div>
+    </div>
   </body>
 </html>

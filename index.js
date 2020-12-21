@@ -1,8 +1,12 @@
+const appDivEl = document.querySelector('#app')
 const sideBarDivEl = document.querySelector('#side-bar')
 const addNoteButtonEl = document.querySelector('#add-note-button')
 const inputAreaDivEl = document.querySelector('#input-area')
 const sideBarHeaderEl = document.querySelector('#side-bar-header')
 const noteListEl = document.querySelector('#note-list')
+
+const loginDivEl = document.querySelector('#login')
+const loginButtonEl = document.querySelector('#login-button')
 
 const menuButtonEl = document.querySelector('#menu-button')
 
@@ -57,7 +61,7 @@ function saveNoteToDBAfterTimeout(noteId) {
     if (timer) {
       saveNoteInDB(noteId)
     }
-  }, 5000)
+  }, 3000)
   return timeoutId
 }
 
@@ -168,7 +172,6 @@ function renderEditModal(note) {
     saveNoteInDB(note.id)
 
     removeModal()
-
   })
 
   modalFormEl.appendChild(cancelButtonEl)
@@ -530,13 +533,42 @@ function initRandomNote() {
   randomNoteContentEl.appendChild(createRandomNoteDiv(note.entry))
 }
 
+function renderLoginPage() {
+  appDivEl.classList.add('invisible')
+  loginDivEl.classList.remove('invisible')
+}
+
+function hideLoginPage() {
+  appDivEl.classList.remove('invisible')
+  loginDivEl.classList.add('invisible')
+}
+
+function checkIfUserIsSignedIn() {
+  if (loggedIn) {
+    return true
+  } else {
+    return false
+  }
+}
+
+async function login() {
+  const usernameInputEl = document.querySelector('#username')
+  const passwordInputEl = document.querySelector('#password')
+  let state = await signInUser(usernameInputEl.value, passwordInputEl.value)
+  init()
+}
+
 async function init() {
-  await fetchAllNotes()
-  // addFakeNotes()
-  updateNotesArr()
-  renderDailyNotes()
-  initRandomNote()
-  console.log('window.innerWidth', window.innerWidth)
+  if (checkIfUserIsSignedIn()) {
+    hideLoginPage()
+    await fetchAllNotes()
+    // addFakeNotes()
+    updateNotesArr()
+    renderDailyNotes()
+    initRandomNote()
+  } else {
+    renderLoginPage()
+  }
 }
 
 init()
@@ -562,3 +594,4 @@ noneFilterEl.addEventListener('click', () => {
 })
 menuButtonEl.addEventListener('click', toggleSidebar)
 landingMenuButtonEl.addEventListener('click', toggleSidebar)
+loginButtonEl.addEventListener('click', login)

@@ -15,6 +15,26 @@ body {
   grid-row-gap: 0px;
 }
 
+.login {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  grid-area: 4 / 5 / 9 / 10;
+  padding: 20px;
+}
+.login * {
+  margin: 10px;
+}
+
+.app {
+  grid-area: 1 / 1 / 13 / 13;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
 #landing {
   z-index: 1;
   grid-area: 1 / 1 / 13 / 13;
@@ -25,8 +45,6 @@ body {
   grid-row-gap: 0px;
 }
 
-#landing img {}
-
 #landing #landing-menu-div {
 	grid-area: 1 / 1 / 2 / 3;
 	align-self: center;
@@ -35,6 +53,7 @@ body {
 }
 
 #landing #random-note {
+  user-select: none;
   border-radius: 2px;
   grid-area: 2 / 2 / 2 / 12;
   border: 1px solid #727272;
