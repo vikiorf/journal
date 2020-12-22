@@ -18,6 +18,7 @@ const dailyFilterEl = document.querySelector('#daily-filter')
 const randomFilterEl = document.querySelector('#random-filter')
 const noneFilterEl = document.querySelector('#none-filter')
 
+const landingPageDiv = document.querySelector('#landing')
 const landingMenuButtonEl = document.querySelector('#landing-menu-button')
 const randomNoteContentEl = document.querySelector('#random-note-content')
 
@@ -84,9 +85,11 @@ function toggleSidebar() {
   if (sideBarDivEl.classList.contains('invisible')) {
     menuButtonEl.classList.remove('collapse')
     sideBarDivEl.classList.remove('invisible')
+    landingPageDiv.classList.add('invisible')
   } else {
     menuButtonEl.classList.add('collapse')
     sideBarDivEl.classList.add('invisible')
+    landingPageDiv.classList.remove('invisible')
   }
 }
 

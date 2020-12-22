@@ -197,7 +197,7 @@ body {
 .input-area {
   z-index: 2;
   grid-area: 1 / 1 / 13 / 13;
-  display: grid;
+  display: flex;
   flex-grow: 1;
   flex-direction: column;
 }
