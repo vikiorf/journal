@@ -275,6 +275,35 @@ function getCurrentDate() {
   return dateO
 }
 
+function parseDay(date) {
+  let day = date.getDay()
+  switch (day) {
+    case 0:
+      day = 'Måndag'
+      break;
+    case 1:
+      day = 'Tisdag'
+      break;
+    case 2:
+      day = 'Onsdag'
+      break;
+    case 3:
+      day = 'Torsdag'
+      break;
+    case 4:
+      day = 'Fredag'
+      break;
+    case 5:
+      day = 'Lördag'
+      break;
+    case 6:
+      day = 'Söndag'
+    default:
+      break;
+  }
+  return day
+}
+
 function updateNotesArr() {
   notesArr = dailyNotesArr.concat(randomNotesArr)
 }
@@ -411,7 +440,12 @@ function createNoteListItem(note) {
 function startAddNoteProcess() {
   addNoteBar.style.display = 'grid'
   const addNoteNameInputEl = addNoteBar.querySelector('input')
+  let currentDate = getCurrentDate()
+  let today = new Date(currentDate)
+  let day = parseDay(today)
   addNoteNameInputEl.focus()
+  addNoteNameInputEl.value = day + ' ' + currentDate
+  
   addNoteDailyFilter.addEventListener('click', toggleAddNoteFilterButtons)
   addNoteRandomFilter.addEventListener('click', toggleAddNoteFilterButtons)
   finalAddNoteButtonEl.addEventListener('click', checkInputAndAddNote)
