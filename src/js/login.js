@@ -1,4 +1,4 @@
-const originalInputEl = loginDivEl.querySelector('div')
+const originalInputEl = loginDivEl.querySelector('input')
 
 let tabIndex = 2
 
@@ -7,7 +7,7 @@ let username
 let password
 
 function createInputEl() {
-  let divEl = document.createElement('div')
+  let divEl = document.createElement('input')
   divEl.classList.add('input')
   divEl.setAttribute('tabindex', tabIndex)
   tabIndex++
