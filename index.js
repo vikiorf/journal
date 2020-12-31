@@ -280,30 +280,31 @@ function getCurrentDate() {
 
 function parseDay(date) {
   let day = date.getDay()
+  console.log('day', day)
   switch (day) {
     case 0:
-      day = 'Måndag'
-      break;
-    case 1:
-      day = 'Tisdag'
-      break;
-    case 2:
-      day = 'Onsdag'
-      break;
-    case 3:
-      day = 'Torsdag'
-      break;
-    case 4:
-      day = 'Fredag'
-      break;
-    case 5:
-      day = 'Lördag'
-      break;
-    case 6:
       day = 'Söndag'
-    default:
-      break;
+      break
+    case 1:
+      day = 'Måndag'
+      break
+    case 2:
+      day = 'Tisdag'
+      break
+    case 3:
+      day = 'Onsdag'
+      break
+    case 4:
+      day = 'Torsdag'
+      break
+    case 5:
+      day = 'Fredag'
+      break
+    case 6:
+      day = 'Lördag'
+      break
   }
+  console.log(day)
   return day
 }
 
@@ -448,7 +449,7 @@ function startAddNoteProcess() {
   let day = parseDay(today)
   addNoteNameInputEl.focus()
   addNoteNameInputEl.value = day + ' ' + currentDate
-  
+
   addNoteDailyFilter.addEventListener('click', toggleAddNoteFilterButtons)
   addNoteRandomFilter.addEventListener('click', toggleAddNoteFilterButtons)
   finalAddNoteButtonEl.addEventListener('click', checkInputAndAddNote)
