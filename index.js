@@ -271,8 +271,8 @@ function renderTextArea(entry, noteId) {
 
 function getCurrentDate() {
   let now = new Date()
-  let month = now.getMonth() + 1
-  let date = now.getDate()
+  let month = (now.getMonth() + 1) > 9 ? now.getDate() : '0' + now.getDate()
+  let date = now.getDate() > 9 ? now.getDate() : '0' + now.getDate()
   let year = now.getFullYear()
   let dateO = year.toString() + '-' + month.toString() + '-' + date.toString()
   return dateO
@@ -447,11 +447,16 @@ function startAddNoteProcess() {
   let currentDate = getCurrentDate()
   let today = new Date(currentDate)
   let day = parseDay(today)
+  let nameAndDate = day + ' ' + currentDate
   addNoteNameInputEl.focus()
-  addNoteNameInputEl.value = day + ' ' + currentDate
+  addNoteNameInputEl.value = nameAndDate
 
-  addNoteDailyFilter.addEventListener('click', toggleAddNoteFilterButtons)
-  addNoteRandomFilter.addEventListener('click', toggleAddNoteFilterButtons)
+  addNoteDailyFilter.addEventListener('click', () => {
+    toggleAddNoteFilterButtons(nameAndDate)
+  })
+  addNoteRandomFilter.addEventListener('click', () => {
+    toggleAddNoteFilterButtons(nameAndDate)
+  })
   finalAddNoteButtonEl.addEventListener('click', checkInputAndAddNote)
   addNoteNameInputEl.addEventListener('keyup', (event) => {
     if (event.key === 'Enter') {
@@ -500,16 +505,19 @@ function toggleFilterButtons() {
   }
 }
 
-function toggleAddNoteFilterButtons() {
+function toggleAddNoteFilterButtons(nameAndDate) {
   const addNoteBarPEl = addNoteBar.querySelector('p')
+  const addNoteNameInputEl = addNoteBar.querySelector('input')
   if (addNoteRandomFilter.style.display === 'none') {
     addNoteDailyFilter.style.display = 'none'
     addNoteRandomFilter.style.display = 'unset'
     addNoteBarPEl.textContent = 'Random'
+    addNoteNameInputEl.value = ''
   } else {
     addNoteDailyFilter.style.display = 'unset'
     addNoteRandomFilter.style.display = 'none'
     addNoteBarPEl.textContent = 'Daily'
+    addNoteNameInputEl.value = nameAndDate
   }
 }
 
