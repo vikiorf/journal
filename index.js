@@ -184,7 +184,6 @@ function renderEditModal(note) {
   // modalFormEl.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quibusdam error consequatur. Earum aliquam repudiandae magni doloribus nobis error sequi accusamus porro fugit iusto? Iste natus alias a sit dolores?'
   document.body.appendChild(modalDivEl)
   document.body.appendChild(modalFormEl)
-  // console.log('hej')
 }
 
 function renderTextAreaHeader(note) {
@@ -271,7 +270,7 @@ function renderTextArea(entry, noteId) {
 
 function getCurrentDate() {
   let now = new Date()
-  let month = (now.getMonth() + 1) > 9 ? now.getDate() : '0' + now.getDate()
+  let month = (now.getMonth() + 1) > 9 ? now.getMonth() : '0' + (now.getMonth() + 1)
   let date = now.getDate() > 9 ? now.getDate() : '0' + now.getDate()
   let year = now.getFullYear()
   let dateO = year.toString() + '-' + month.toString() + '-' + date.toString()
@@ -280,7 +279,6 @@ function getCurrentDate() {
 
 function parseDay(date) {
   let day = date.getDay()
-  console.log('day', day)
   switch (day) {
     case 0:
       day = 'Söndag'
@@ -304,7 +302,6 @@ function parseDay(date) {
       day = 'Lördag'
       break
   }
-  console.log(day)
   return day
 }
 
@@ -598,7 +595,6 @@ function checkIfUserIsSignedIn() {
 
 async function login(username, password) {
   let uid = await signInUser(username, password)
-  console.log(uid)
   if (uid) {
     localStorage.setItem('uid', uid)
   }
