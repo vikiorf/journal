@@ -180,8 +180,7 @@ function renderEditModal(note) {
   modalFormEl.appendChild(titleInputEl)
   modalFormEl.appendChild(dateInputEl)
   modalFormEl.appendChild(saveButtonEl)
-
-  // modalFormEl.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quibusdam error consequatur. Earum aliquam repudiandae magni doloribus nobis error sequi accusamus porro fugit iusto? Iste natus alias a sit dolores?'
+  
   document.body.appendChild(modalDivEl)
   document.body.appendChild(modalFormEl)
 }
@@ -504,16 +503,19 @@ function toggleFilterButtons() {
 
 function toggleAddNoteFilterButtons(nameAndDate) {
   const addNoteBarPEl = addNoteBar.querySelector('p')
+  const addNoteNameInputEl = addNoteBar.querySelector('input')
   if (addNoteRandomFilter.classList.contains('invisible')) {
     addNoteDailyFilter.classList.add('invisible')
     addNoteRandomFilter.classList.remove('invisible')
     addNoteBarPEl.textContent = 'Random'
     addNoteNameInputEl.value = ''
+    addNoteNameInputEl.focus()
   } else {
     addNoteDailyFilter.classList.remove('invisible')
     addNoteRandomFilter.classList.add('invisible')
     addNoteBarPEl.textContent = 'Daily'
     addNoteNameInputEl.value = nameAndDate
+    addNoteNameInputEl.focus()
   }
 }
 
