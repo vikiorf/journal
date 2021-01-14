@@ -6,7 +6,6 @@ const sideBarHeaderEl = document.querySelector('#side-bar-header')
 const noteListEl = document.querySelector('#note-list')
 
 const loginDivEl = document.querySelector('#login')
-const loginButtonEl = document.querySelector('#login-button')
 
 const menuButtonEl = document.querySelector('#menu-button')
 
@@ -19,6 +18,7 @@ const dailyFilterEl = document.querySelector('#daily-filter')
 const randomFilterEl = document.querySelector('#random-filter')
 const noneFilterEl = document.querySelector('#none-filter')
 
+const landingPageDiv = document.querySelector('#landing')
 const landingMenuButtonEl = document.querySelector('#landing-menu-button')
 const randomNoteContentEl = document.querySelector('#random-note-content')
 
@@ -85,9 +85,11 @@ function toggleSidebar() {
   if (sideBarDivEl.classList.contains('invisible')) {
     menuButtonEl.classList.remove('collapse')
     sideBarDivEl.classList.remove('invisible')
+    landingPageDiv.classList.add('invisible')
   } else {
     menuButtonEl.classList.add('collapse')
     sideBarDivEl.classList.add('invisible')
+    landingPageDiv.classList.remove('invisible')
   }
 }
 
@@ -182,7 +184,6 @@ function renderEditModal(note) {
   // modalFormEl.textContent = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati quibusdam error consequatur. Earum aliquam repudiandae magni doloribus nobis error sequi accusamus porro fugit iusto? Iste natus alias a sit dolores?'
   document.body.appendChild(modalDivEl)
   document.body.appendChild(modalFormEl)
-  // console.log('hej')
 }
 
 function renderTextAreaHeader(note) {
@@ -269,11 +270,39 @@ function renderTextArea(entry, noteId) {
 
 function getCurrentDate() {
   let now = new Date()
-  let month = now.getMonth() + 1
-  let date = now.getDate()
+  let month = (now.getMonth() + 1) > 9 ? now.getMonth() : '0' + (now.getMonth() + 1)
+  let date = now.getDate() > 9 ? now.getDate() : '0' + now.getDate()
   let year = now.getFullYear()
   let dateO = year.toString() + '-' + month.toString() + '-' + date.toString()
   return dateO
+}
+
+function parseDay(date) {
+  let day = date.getDay()
+  switch (day) {
+    case 0:
+      day = 'Söndag'
+      break
+    case 1:
+      day = 'Måndag'
+      break
+    case 2:
+      day = 'Tisdag'
+      break
+    case 3:
+      day = 'Onsdag'
+      break
+    case 4:
+      day = 'Torsdag'
+      break
+    case 5:
+      day = 'Fredag'
+      break
+    case 6:
+      day = 'Lördag'
+      break
+  }
+  return day
 }
 
 function updateNotesArr() {
@@ -412,9 +441,19 @@ function createNoteListItem(note) {
 function startAddNoteProcess() {
   addNoteBar.style.display = 'grid'
   const addNoteNameInputEl = addNoteBar.querySelector('input')
+  let currentDate = getCurrentDate()
+  let today = new Date(currentDate)
+  let day = parseDay(today)
+  let nameAndDate = day + ' ' + currentDate
   addNoteNameInputEl.focus()
-  addNoteDailyFilter.addEventListener('click', toggleAddNoteFilterButtons)
-  addNoteRandomFilter.addEventListener('click', toggleAddNoteFilterButtons)
+  addNoteNameInputEl.value = nameAndDate
+
+  addNoteDailyFilter.addEventListener('click', () => {
+    toggleAddNoteFilterButtons(nameAndDate)
+  })
+  addNoteRandomFilter.addEventListener('click', () => {
+    toggleAddNoteFilterButtons(nameAndDate)
+  })
   finalAddNoteButtonEl.addEventListener('click', checkInputAndAddNote)
   addNoteNameInputEl.addEventListener('keyup', (event) => {
     if (event.key === 'Enter') {
@@ -463,16 +502,18 @@ function toggleFilterButtons() {
   }
 }
 
-function toggleAddNoteFilterButtons() {
+function toggleAddNoteFilterButtons(nameAndDate) {
   const addNoteBarPEl = addNoteBar.querySelector('p')
   if (addNoteRandomFilter.classList.contains('invisible')) {
     addNoteDailyFilter.classList.add('invisible')
     addNoteRandomFilter.classList.remove('invisible')
     addNoteBarPEl.textContent = 'Random'
+    addNoteNameInputEl.value = ''
   } else {
     addNoteDailyFilter.classList.remove('invisible')
     addNoteRandomFilter.classList.add('invisible')
     addNoteBarPEl.textContent = 'Daily'
+    addNoteNameInputEl.value = nameAndDate
   }
 }
 
@@ -551,11 +592,8 @@ function checkIfUserIsSignedIn() {
   }
 }
 
-async function login() {
-  const usernameInputEl = document.querySelector('#username')
-  const passwordInputEl = document.querySelector('#password')
-  let uid = await signInUser(usernameInputEl.value, passwordInputEl.value)
-  console.log(uid)
+async function login(username, password) {
+  let uid = await signInUser(username, password)
   if (uid) {
     localStorage.setItem('uid', uid)
   }
@@ -598,4 +636,3 @@ noneFilterEl.addEventListener('click', () => {
 })
 menuButtonEl.addEventListener('click', toggleSidebar)
 landingMenuButtonEl.addEventListener('click', toggleSidebar)
-loginButtonEl.addEventListener('click', login)
