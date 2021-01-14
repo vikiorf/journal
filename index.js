@@ -465,13 +465,13 @@ function toggleFilterButtons() {
 
 function toggleAddNoteFilterButtons() {
   const addNoteBarPEl = addNoteBar.querySelector('p')
-  if (addNoteRandomFilter.style.display === 'none') {
-    addNoteDailyFilter.style.display = 'none'
-    addNoteRandomFilter.style.display = 'unset'
+  if (addNoteRandomFilter.classList.contains('invisible')) {
+    addNoteDailyFilter.classList.add('invisible')
+    addNoteRandomFilter.classList.remove('invisible')
     addNoteBarPEl.textContent = 'Random'
   } else {
-    addNoteDailyFilter.style.display = 'unset'
-    addNoteRandomFilter.style.display = 'none'
+    addNoteDailyFilter.classList.remove('invisible')
+    addNoteRandomFilter.classList.add('invisible')
     addNoteBarPEl.textContent = 'Daily'
   }
 }
