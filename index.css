@@ -112,6 +112,24 @@ body {
   background-color: #fafaff;
   padding-bottom: 15px;
   user-select: none;
+  position: relative;
+}
+
+.show-side-bar {
+  left: 0;
+  transition: left 0.5s;
+}
+
+.hide-side-bar {
+  left: -100vw;
+  transition: left 0.5s;
+}
+
+@media screen and (min-width: 900px) {
+  .hide-side-bar {
+    left: -20vw;
+    transition: left 0.5s;
+  } 
 }
 
 .collapse {
