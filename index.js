@@ -613,8 +613,8 @@ async function login(username, password) {
 async function init() {
   if (checkIfUserIsSignedIn()) {
     hideLoginPage()
-    // await fetchAllNotes()
-    addFakeNotes()
+    await fetchAllNotes()
+    // addFakeNotes()
     updateNotesArr()
     renderDailyNotes()
     initRandomNote()
