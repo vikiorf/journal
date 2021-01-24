@@ -317,7 +317,7 @@ body {
   z-index: 98;
   height: 40px;
   width: 40px;
-  position: fixed;
+  position: relative;
 }
 
 #add-note-bar {
