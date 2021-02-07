@@ -82,15 +82,23 @@ function autoSaveDocument(noteId, textAreaEl) {
 }
 
 function toggleSidebar() {
-  if (sideBarDivEl.classList.contains('invisible')) {
-    menuButtonEl.classList.remove('collapse')
-    sideBarDivEl.classList.remove('invisible')
+  if (!landingPageDiv.classList.contains('invisible')) {
+    // menuButtonEl.classList.remove('collapse')
+    // sideBarDivEl.classList.remove('invisible')
     landingPageDiv.classList.add('invisible')
   } else {
-    menuButtonEl.classList.add('collapse')
-    sideBarDivEl.classList.add('invisible')
+    // menuButtonEl.classList.add('collapse')
+    // sideBarDivEl.classList.add('invisible')
     landingPageDiv.classList.remove('invisible')
   }
+  if (sideBarDivEl.classList.contains('show-side-bar')) {
+    sideBarDivEl.classList.remove('show-side-bar')
+    sideBarDivEl.classList.add('hide-side-bar')
+  } else if (sideBarDivEl.classList.contains('hide-side-bar')) {
+    sideBarDivEl.classList.add('show-side-bar')
+    sideBarDivEl.classList.remove('hide-side-bar')
+  }
+
 }
 
 function toggleDisplayNone(el) {
