@@ -11,7 +11,7 @@ function createInputEl() {
   divEl.classList.add('input')
   divEl.setAttribute('tabindex', tabIndex)
   tabIndex++
-  divEl.addEventListener('keydown', listenForKey.bind(event))
+  divEl.addEventListener('keypress', listenForKey.bind(event))
   return divEl
 }
 
@@ -59,5 +59,7 @@ function listenForKey(event) {
   }
 }
 
-originalInputEl.addEventListener('keydown', listenForKey.bind(event))
+originalInputEl.addEventListener('keypress', (event) => {
+  listenForKey(event)
+})
 originalInputEl.focus()
