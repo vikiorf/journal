@@ -1,65 +1,20 @@
-const originalInputEl = loginDivEl.querySelector('input')
+const usernameInputEl = loginDivEl.querySelector('#username')
+const passwordInputEl = loginDivEl.querySelector('#password')
+const loginButtonEl = loginDivEl.querySelector('#login-button')
 
-let tabIndex = 2
-
-let inputArr = []
-let username
-let password
-
-function createInputEl() {
-  let divEl = document.createElement('input')
-  divEl.classList.add('input')
-  divEl.setAttribute('tabindex', tabIndex)
-  tabIndex++
-  divEl.addEventListener('keypress', listenForKey.bind(event))
-  return divEl
-}
-
-function removeAllInputs() {
-  loginDivEl.innerHTML = ''
-}
-
-function arrToString(arr) {
-  let string = ''
-  arr.forEach(c => {
-    string += c
-  })
-  return string
-}
-
-function saveInputArr() {
-  removeAllInputs()
-  if (!username) {
-    username = arrToString(inputArr)
-    appendNewInput()
-  } else {
-    password = arrToString(inputArr)
-    login(username, password)
+usernameInputEl.addEventListener('keypress', (event) => {
+  // listenForKey(event)
+  if (event.key === 'Enter') {
+    login(usernameInputEl.value, passwordInputEl.value)
   }
-  inputArr = []
-}
-
-function appendNewInput() {
-  let inputEl = createInputEl()
-  loginDivEl.append(inputEl)
-  inputEl.focus()
-}
-
-function listenForKey(event) {
-  if (event.key.length > 1) {
-    // check for enter, backspace, esc, arrows?
-    if (event.key === 'Enter') {
-      saveInputArr()
-    } else if (event.key === 'Backspace') {
-      event.preventDefault()
-    }
-  } else if (event.key !== ' ') {
-    inputArr.push(event.key)
-    appendNewInput()
-  }
-}
-
-originalInputEl.addEventListener('keypress', (event) => {
-  listenForKey(event)
 })
-originalInputEl.focus()
+passwordInputEl.addEventListener('keypress', event => {
+  // listenForKey(event)
+  if (event.key === 'Enter') {
+    login(usernameInputEl.value, passwordInputEl.value)
+  }
+})
+loginButtonEl.addEventListener('click', () => {
+  login(usernameInputEl.value, passwordInputEl.value)
+})
+usernameInputEl.focus()

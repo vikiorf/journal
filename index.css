@@ -20,17 +20,29 @@ body {
   grid-area: 1 / 1 / 13 / 13;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(12, 1fr) auto;
+  grid-template-rows: repeat(12, 1fr);
   grid-column-gap: 10px;
   grid-row-gap: 10px;
   padding: 5px;
 }
 
+#login-button {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 4;
+  grid-column-end: 10;
+  outline: none;
+}
+#login-button:focus-visible {
+  outline:none
+}
+
 .input {
-  grid-column-start: span 4;
-  grid-row-start: span 2;
+  grid-column-start: 3;
+  grid-column-end: 11;
+  /* grid-row-start: span 2; */
   border: 2px solid #a37a74;
-  color: #F8F8FF;
+  text-align: center;
   background-color: #eef0f2;
   outline: none;
   box-shadow: inset 1px 1px 10px 1px #936862;
